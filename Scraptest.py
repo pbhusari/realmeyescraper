@@ -1,10 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
-import csv
 import pandas as pd
-import re
 import datetime
+import re
 from item_dict import item_dict1
+import sys
+
+
+sys.setrecursionlimit(10000000) #   *nervous laughter*
 
 #realmeye frequency is EXACTLY an hour
 url = 'https://www.realmeye.com/recent-offers'
@@ -236,8 +239,14 @@ pandaframe1 = [('offermade', offermade),
                ('selling_items_quantity', selling_items_quantity),
                ('buying_items_quantity', buying_items_quantity),
                ]
-df = pd.DataFrame.from_items(pandaframe1)
+
+timestamp = str(datetime.datetime.now())
+df_rotmg = pd.DataFrame.from_items(pandaframe1)
+df_rotmg.to_pickle(timestamp, 'gzip')
+
+del df_rotmg
+
 #str(datetime.datetime.now())
-df.to_csv('ex3', sep='\t')
+#df.to_csv('scrapetest/Data/', str(datetime.datetime.now()) + '.csv', sep='\t')
 
 print(len(offermade))
